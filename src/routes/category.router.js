@@ -10,5 +10,8 @@ routes.post('/',
   loginMiddleware.checkToken,
   categoryMiddleware.validateName,
   categoryController.create);
+routes.get('/',
+  loginMiddleware.checkToken,
+  categoryController.getCategories);
 
 module.exports = routes;
