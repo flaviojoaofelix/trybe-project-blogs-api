@@ -12,7 +12,7 @@ const create = async (req, res, next) => {
 
 const getUsers = async (req, res, next) => {
   try {
-    const response = await userService.getUsers();
+    const response = await userService.getUsers(req.params.id);
 
     res.status(200).json(response);
   } catch (error) {

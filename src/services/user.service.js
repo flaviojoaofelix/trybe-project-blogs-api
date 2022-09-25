@@ -30,10 +30,24 @@ const create = async ({ displayName, email, password, image }) => {
   return response;
 };
 
-const getUsers = async () => {
-  const response = await User.findAll({
-    attributes: { exclude: ['password'] },
-  });
+const getUsers = async (id) => {
+  let response;
+
+  if (id) {
+    response = await User.findOne({
+      where: { id },
+      attributes: { exclude: ['password'] },
+    });
+  } else {
+    response = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+  }
+
+  if (!response) {
+    const errorMsg = { status: 404, message: 'User does not exist' };
+    throw errorMsg;
+  }
 
   return response;
 };

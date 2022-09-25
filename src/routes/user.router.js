@@ -12,5 +12,7 @@ routes.post('/',
 routes.get('/',
   loginMiddleware.checkToken,
   userController.getUsers);
-
+routes.get('/:id',
+  loginMiddleware.checkToken,
+  userController.getUsers);
 module.exports = routes;
