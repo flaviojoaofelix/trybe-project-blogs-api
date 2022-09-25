@@ -4,21 +4,18 @@ const missingMsg = 'Some required fields are missing';
 
 const loginSchema = Joi.object({
   email: Joi.string()
-  .regex(/(.+)@(.+){2,}\.(.+){2,}/)
-  .required()
+  .pattern(/(.+)@(.+){2,}\.(.+){2,}/)
   .empty()
+  .required()
   .messages({
-    // eslint-disable-next-line quote-props
+    'string.pattern.base': '"email" must be a valid email',
     'string.empty': missingMsg,
-    'any.required': missingMsg,
+    'string.required': missingMsg,
   }),
   password: Joi.string()
-  .required()
-  .messages({
-    // eslint-disable-next-line quote-props
-    'string.empty': missingMsg,
-    'any.required': missingMsg,
-  }),
+  .min(6)
+  .message(missingMsg)
+  .required(),
 });
 
 module.exports = {
