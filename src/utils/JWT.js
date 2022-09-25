@@ -2,13 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = process.env.JWT_SECRET || 'secretJWT';
 
-const generateToken = ({ id, displayName, email }) => {
-  const payload = {
-    id,
-    displayName,
-    email,
-  };
-
+const generateToken = (payload) => {
   const config = {
     expiresIn: '15m',
     algorithm: 'HS256',
@@ -19,6 +13,13 @@ const generateToken = ({ id, displayName, email }) => {
   return token;
 };
 
+const validateToken = (token) => {
+    const validation = jwt.verify(token, SECRET_KEY);
+
+    return validation;
+};
+
 module.exports = {
   generateToken,
+  validateToken,
 };

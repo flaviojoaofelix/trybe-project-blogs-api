@@ -11,8 +11,14 @@ const checkUserInfo = async ({ email, password }) => {
   return checkUser;
 };
 
-const createToken = async ({ id, displayName, email }) => {
-  const token = generateToken({ id, displayName, email });
+const getToken = async ({ id, displayName, email }) => {
+  const payload = {
+    id,
+    displayName,
+    email,
+  };
+
+  const token = generateToken(payload);
 
   return { token };
 };
@@ -25,7 +31,8 @@ const login = async ({ email, password }) => {
     throw error;
   }
 
-  const token = createToken(checkUser.dataValues);
+  console.log(`resultado checkuser: ${checkUser.dataValues}`);
+  const token = getToken(checkUser.dataValues);
 
   return token;
 };

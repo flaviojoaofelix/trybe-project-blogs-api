@@ -6,7 +6,7 @@ const loginController = require('../controllers/login.controller');
 const loginMiddleware = require('../middlewares/login.middleware');
 
 routes.post('/',
-  loginMiddleware.loginValidation,
+  loginMiddleware.validateUserInfo,
   loginController.login);
 
 module.exports = routes;
