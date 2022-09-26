@@ -20,7 +20,20 @@ const getUsers = async (req, res, next) => {
   }
 };
 
+const remove = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+
+    await userService.remove(authorization);
+
+    return res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   getUsers,
+  remove,
 };
