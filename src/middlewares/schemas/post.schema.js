@@ -18,6 +18,16 @@ const postSchema = Joi.object({
   .messages(messages),
 });
 
+const postUpdateSchema = Joi.object({
+  title: Joi.string()
+  .required()
+  .messages(messages),
+  content: Joi.string()
+  .required()
+  .messages(messages),
+});
+
 module.exports = {
   postSchema,
+  postUpdateSchema,
 };

@@ -94,7 +94,31 @@ const getPosts = async (id) => {
   return response;
 };
 
+const update = async ({ authorization, id, title, content }) => {
+  const userInfo = await validateToken(authorization);
+  const postInfo = await getById(id);
+
+  if (!postInfo) {
+    const errorMsg = { status: 404, message: 'Post does not exist' };
+    throw errorMsg;
+  }
+  if (postInfo.userId !== userInfo.id) {
+    const errorMsg = { status: 401, message: 'Unauthorized user' };
+    throw errorMsg;
+  }
+
+  await BlogPost.update(
+    { title, content },
+    { where: { id } },
+  );
+
+  const response = getById(id);
+
+  return response;
+};
+
 module.exports = {
   create,
   getPosts,
+  update,
 };
