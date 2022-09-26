@@ -1,4 +1,4 @@
-const { BlogPost, PostCategory } = require('../models');
+const { BlogPost, PostCategory, User, Category } = require('../models');
 const categoryService = require('./category.service');
 const { validateToken } = require('../utils/JWT');
 
@@ -51,6 +51,20 @@ const create = async (req) => {
   return response;
 };
 
+const getPosts = async () => {
+  const response = await BlogPost.findAll({
+    include: [{
+      model: User, as: 'user', attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category, as: 'categories', through: { attributes: [] },
+    }],
+  });
+
+  return response;
+};
+
 module.exports = {
   create,
+  getPosts,
 };
