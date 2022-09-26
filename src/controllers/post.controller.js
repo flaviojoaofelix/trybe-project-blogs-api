@@ -12,7 +12,7 @@ const create = async (req, res, next) => {
 
 const getPosts = async (req, res, next) => {
   try {
-    const response = await postService.getPosts();
+    const response = await postService.getPosts(req.params.id);
 
     return res.status(200).json(response);
   } catch (error) {

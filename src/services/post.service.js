@@ -51,7 +51,21 @@ const create = async (req) => {
   return response;
 };
 
-const getPosts = async () => {
+const getById = async (id) => {
+  const response = await BlogPost.findOne({
+    where: { id },
+    include: [{
+      model: User, as: 'user', attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category, as: 'categories', through: { attributes: [] },
+    }],
+  });
+
+  return response;
+};
+
+const getAll = async () => {
   const response = await BlogPost.findAll({
     include: [{
       model: User, as: 'user', attributes: { exclude: ['password'] },
@@ -60,6 +74,23 @@ const getPosts = async () => {
       model: Category, as: 'categories', through: { attributes: [] },
     }],
   });
+
+  return response;
+};
+
+const getPosts = async (id) => {
+  let response;
+
+  if (id) {
+    response = await getById(id);
+  } else {
+    response = await getAll();
+  }
+
+  if (!response) {
+    const errorMsg = { status: 404, message: 'Post does not exist' };
+    throw errorMsg;
+  }
 
   return response;
 };
