@@ -31,7 +31,6 @@ const login = async ({ email, password }) => {
     throw error;
   }
 
-  console.log(`resultado checkuser: ${checkUser.dataValues}`);
   const token = getToken(checkUser.dataValues);
 
   return token;

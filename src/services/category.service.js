@@ -14,7 +14,16 @@ const getCategories = async () => {
   return response;
 };
 
+const checkCategory = async (id) => {
+  const response = Category.findOne({
+    where: { id },
+  });
+
+  return response;
+};
+
 module.exports = {
   create,
   getCategories,
+  checkCategory,
 };

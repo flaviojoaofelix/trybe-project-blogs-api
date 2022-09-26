@@ -22,9 +22,7 @@ const checkToken = (req, _res, next) => {
   }
 
   try {
-    const validation = jwt.validateToken(authorization);
-
-    req.headers.authorization = validation;
+    jwt.validateToken(authorization);
   } catch (error) {
     const errorMsg = { status: 401, message: 'Expired or invalid token' };
     next(errorMsg);
