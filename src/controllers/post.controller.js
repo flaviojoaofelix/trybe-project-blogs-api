@@ -2,7 +2,15 @@ const postService = require('../services/post.service');
 
 const create = async (req, res, next) => {
   try {
-    const response = await postService.create(req);
+    const { authorization } = req.headers;
+    const { title, content, categoryIds } = req.body;
+
+    const response = await postService.create({
+      authorization,
+      title,
+      content,
+      categoryIds,
+    });
 
     return res.status(201).json(response);
   } catch (error) {
@@ -12,7 +20,9 @@ const create = async (req, res, next) => {
 
 const getPosts = async (req, res, next) => {
   try {
-    const response = await postService.getPosts(req.params.id);
+    const { id } = req.params;
+
+    const response = await postService.getPosts(id);
 
     return res.status(200).json(response);
   } catch (error) {

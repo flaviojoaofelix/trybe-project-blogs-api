@@ -26,9 +26,8 @@ const createPostCategory = async ({ postId, categoryIds }) => {
   return response;
 };
 
-const create = async (req) => {
-  const { title, content, categoryIds } = req.body;
-  const user = validateToken(req.headers.authorization);
+const create = async ({ authorization, title, content, categoryIds }) => {
+  const user = validateToken(authorization);
 
   const isCategoriesInvalid = await checkCategory(categoryIds);
 
