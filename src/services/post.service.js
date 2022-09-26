@@ -94,7 +94,7 @@ const getPosts = async (id) => {
   return response;
 };
 
-const update = async ({ authorization, id, title, content }) => {
+const checkUserPost = async ({ authorization, id }) => {
   const userInfo = await validateToken(authorization);
   const postInfo = await getById(id);
 
@@ -107,6 +107,12 @@ const update = async ({ authorization, id, title, content }) => {
     throw errorMsg;
   }
 
+  return null;
+};
+
+const update = async ({ authorization, id, title, content }) => {
+  await checkUserPost({ authorization, id });
+
   await BlogPost.update(
     { title, content },
     { where: { id } },
@@ -117,8 +123,17 @@ const update = async ({ authorization, id, title, content }) => {
   return response;
 };
 
+const remove = async ({ authorization, id }) => {
+  await checkUserPost({ authorization, id });
+
+  await BlogPost.destroy({ where: { id } });
+
+  return null;
+};
+
 module.exports = {
   create,
   getPosts,
   update,
+  remove,
 };

@@ -20,5 +20,8 @@ routes.put('/:id',
   loginMiddleware.checkToken,
   postMiddleware.validatePostUpdate,
   postController.update);
+routes.delete('/:id',
+  loginMiddleware.checkToken,
+  postController.remove);
 
 module.exports = routes;
