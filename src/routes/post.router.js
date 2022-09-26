@@ -6,6 +6,9 @@ const postController = require('../controllers/post.controller');
 const loginMiddleware = require('../middlewares/login.middleware');
 const postMiddleware = require('../middlewares/post.middleware');
 
+routes.get('/search',
+  loginMiddleware.checkToken,
+  postController.search);
 routes.post('/',
   loginMiddleware.checkToken,
   postMiddleware.validatePost,

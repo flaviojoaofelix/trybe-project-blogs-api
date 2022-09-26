@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const { BlogPost, PostCategory, User, Category } = require('../models');
 const categoryService = require('./category.service');
 const { validateToken } = require('../utils/JWT');
@@ -131,9 +133,46 @@ const remove = async ({ authorization, id }) => {
   return null;
 };
 
+const getByQuery = async (q) => {
+  const response = await BlogPost.findOne({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${q}%` } },
+        { content: { [Op.like]: `%${q}%` } },
+      ],
+    },
+    include: [{
+      model: User, as: 'user', attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category, as: 'categories', through: { attributes: [] },
+    }],
+  });
+
+  if (!response) return [];
+  return [response];
+};
+
+const search = async (q) => {
+  let response;
+
+  if (!q) {
+    response = await getAll();
+  } else {
+    response = await getByQuery(q);
+  }
+
+  if (!response) {
+    response = [];
+  }
+
+  return response;
+};
+
 module.exports = {
   create,
   getPosts,
   update,
   remove,
+  search,
 };
